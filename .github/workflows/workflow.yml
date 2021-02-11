@@ -36,7 +36,8 @@ jobs:
           ocaml-version: ${{ matrix.ocaml-version }}
 
       - run: opam pin add --no-action .
-      - run: opam depext --yes --with-doc --with-test ocp-index ocp-browser
+      - run: opam depext --yes --with-test ocp-index ocp-browser
+      - run: opam depext --yes --with-doc ocp-index ocp-browser
       - run: opam install . --deps-only --with-doc --with-test
 
       - run: opam exec -- dune build @install @runtest @doc
