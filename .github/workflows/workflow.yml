@@ -30,14 +30,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Use OCaml ${{ matrix.ocaml-version }}
-        uses: avsm/setup-ocaml@v1
-        with:
-          ocaml-version: ${{ matrix.ocaml-version }}
+      - run: |
+          curl -sL -o install.sh https://raw.githubusercontent.com/ocaml/opam/master/shell/install.sh
+          chmod +x install.sh
+          ./install.sh --dev
+      - run: opam init -ya ${{ matrix.ocaml-version }}
 
-      - run: opam pin add --no-action .
-      - run: opam depext --yes --with-test ocp-index ocp-browser
-      - run: opam depext --yes --with-doc ocp-index ocp-browser
+      - run: opam pin add -yn .
       - run: opam install . --deps-only --with-doc --with-test
 
       - run: opam exec -- dune build @install @runtest @doc
