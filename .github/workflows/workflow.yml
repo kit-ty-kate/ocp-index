@@ -34,7 +34,14 @@ jobs:
       - run: opam init -yn --disable-sandboxing --compiler ${{ matrix.ocaml-version }}
 
       - run: opam pin add -yn .
-      - run: opam install . --deps-only --with-doc --with-test
 
-      - run: opam exec -- dune build @install @runtest @doc
-      - run: opam install .
+      - run: opam install -y --deps-only .
+      - run: opam exec -- dune build @install
+
+      - run: opam install -y --deps-only --with-test .
+      - run: opam exec -- dune build @runtest
+
+      - run: opam install -y --deps-only --with-doc .
+      - run: opam exec -- dune build @doc
+
+      - run: opam install -yt .
