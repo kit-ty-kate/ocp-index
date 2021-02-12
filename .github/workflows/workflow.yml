@@ -30,9 +30,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - run: sudo apt install -yy bubblewrap
       - run: echo | sh <(curl -sL https://raw.githubusercontent.com/ocaml/opam/master/shell/install.sh) --dev
-      - run: opam init -ya ${{ matrix.ocaml-version }}
+      - run: opam init -yn --disable-sandboxing --compiler ${{ matrix.ocaml-version }}
 
       - run: opam pin add -yn .
       - run: opam install . --deps-only --with-doc --with-test
